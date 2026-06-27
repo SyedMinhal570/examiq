@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16-alpine      # Lightweight Alpine version
+    container_name: examiq-postgres
+    environment:
+      POSTGRES_USER: examiq
+      POSTGRES_PASSWORD: examiq123
+      POSTGRES_DB: examiq
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U examiq"]
+      interval: 10s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine          # Very lightweight
+    container_name: examiq-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+
+# Optional: Uncomment for monitoring (adds ~300MB RAM)
+#  prometheus:
+#    image: prom/prometheus:latest
+#    ports: ["9090:9090"]
+#    volumes: ["./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"]
+#
+#  grafana:
+#    image: grafana/grafana:latest
+#    ports: ["3001:3000"]
+#    depends_on: [prometheus]
+
+volumes:
+  postgres_data:

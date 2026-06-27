@@ -1,0 +1,40 @@
+# fly.toml — ExamIQ Backend on Fly.io
+# Deploy: flyctl deploy
+
+app = "examiq-backend"
+primary_region = "sin"          # Singapore — closest to Pakistan
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ENVIRONMENT = "production"
+  DEBUG = "false"
+  PORT = "8000"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true     # Scale to zero when no traffic (saves money)
+  auto_start_machines = true
+  min_machines_running = 0      # Zero machines when idle = $0 cost
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 50
+    soft_limit = 25
+
+[[vm]]
+  size = "shared-cpu-1x"        # Free tier: 256MB RAM, 1 shared CPU
+  memory = "512mb"
+
+[checks]
+  [checks.health]
+    grace_period = "30s"
+    interval = "15s"
+    method = "GET"
+    path = "/health"
+    port = 8000
+    timeout = "5s"
+    type = "http"

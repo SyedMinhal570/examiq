@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+@layer base {
+  * { box-sizing: border-box; }
+  
+  :root {
+    --bg:      #030712;
+    --surface: #111827;
+    --card:    #1f2937;
+    --border:  #374151;
+    --accent:  #3b82f6;
+    --green:   #10b981;
+    --red:     #ef4444;
+    --yellow:  #f59e0b;
+    --purple:  #8b5cf6;
+  }
+
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: var(--bg);
+    color: #f9fafb;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: white;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+}
+
+@layer components {
+  /* Card component */
+  .card {
+    @apply bg-gray-900 border border-gray-800 rounded-xl p-6;
+  }
+  
+  /* Stat card */
+  .stat-card {
+    @apply bg-gray-900 border border-gray-800 rounded-xl p-5 transition-all duration-200 hover:border-gray-700;
+  }
+
+  /* Button variants */
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-lg
+           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium px-5 py-2.5 rounded-lg
+           border border-gray-700 transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-gray-500;
+  }
+
+  .btn-danger {
+    @apply bg-red-600/10 hover:bg-red-600/20 text-red-400 font-medium px-5 py-2.5 rounded-lg
+           border border-red-600/30 transition-all duration-150;
+  }
+
+  .btn-success {
+    @apply bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-5 py-2.5 rounded-lg
+           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-gray-100
+           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500
+           focus:border-transparent transition-all duration-150;
+  }
+
+  /* Badge variants */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold;
+  }
+  .badge-blue   { @apply bg-blue-500/10 text-blue-400 border border-blue-500/20; }
+  .badge-green  { @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20; }
+  .badge-red    { @apply bg-red-500/10 text-red-400 border border-red-500/20; }
+  .badge-yellow { @apply bg-yellow-500/10 text-yellow-400 border border-yellow-500/20; }
+  .badge-purple { @apply bg-purple-500/10 text-purple-400 border border-purple-500/20; }
+  .badge-gray   { @apply bg-gray-700/50 text-gray-400 border border-gray-700; }
+
+  /* Mono text */
+  .mono { font-family: 'JetBrains Mono', monospace; }
+}
+
+@layer utilities {
+  .animate-fade-in  { animation: fadeIn 0.4s ease-in-out; }
+  .animate-slide-up { animation: slideUp 0.3s ease-out; }
+
+  @keyframes fadeIn  { from { opacity: 0; }  to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Ability meter gradient */
+  .theta-gradient {
+    background: linear-gradient(90deg, #ef4444 0%, #f59e0b 40%, #10b981 70%, #3b82f6 100%);
+  }
+}
