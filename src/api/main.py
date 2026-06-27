@@ -33,13 +33,7 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
     print("✅ Database tables ready")
 
-    # Pre-load SBERT (90MB, takes ~5s first time, cached after)
-    try:
-        from src.ml.nlp.similarity import get_sbert_model
-        get_sbert_model()
-        print("✅ SBERT model loaded (all-MiniLM-L6-v2, 90MB)")
-    except Exception as e:
-        print(f"⚠️  SBERT load skipped: {e}")
+    print("SBERT will load on first plagiarism request.")
 
     print(f"✅ {settings.app_name} ready!\n")
     print("   Docs:   http://localhost:8000/docs")
