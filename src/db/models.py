@@ -10,7 +10,14 @@ from src.core.settings import settings
 
 class Base(AsyncAttrs, DeclarativeBase): pass
 
-engine = create_async_engine(settings.database_url, echo=settings.debug, pool_pre_ping=True)
+db_url = settings.database_url.replace("?sslmode=require", "")
+
+engine = create_async_engine(
+    db_url,
+    echo=settings.debug,
+    pool_pre_ping=True,
+    connect_args={"ssl": "require"},
+)
 
 async def get_db_session():
     from sqlalchemy.ext.asyncio import async_sessionmaker

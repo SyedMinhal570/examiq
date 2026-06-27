@@ -164,7 +164,12 @@ def calibrate_irt_parameters(subject: str | None = None) -> dict:
         from src.db.models import ExamItem, ItemResponse as IR
         import numpy as np
 
-        engine = create_async_engine(settings.database_url)
+        db_url = settings.database_url.replace("?sslmode=require", "")
+
+        engine = create_async_engine(
+            db_url,
+            connect_args={"ssl": "require"},
+        )
         S = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
         async with S() as db:
